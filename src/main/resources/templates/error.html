@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+    <link rel="stylesheet" href="../styles/milligram.min.css">
+    <link rel="stylesheet" href="../styles/common.css">
+    <style>
+        h1 {
+            font-size: 4.6rem;
+            line-height: 1.2;
+        }
+        #error {
+            border-top: 0;
+            padding-bottom: 7.5rem;
+            padding-top: 7.5rem;
+            position: relative;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<main class="wrapper">
+    <#include "header.html"/>
+    <section id="error" class="container" style="max-width:30rem;">
+        <h1>出错啦</h1>
+        <a href="/">
+        <img src="../img/error.jpg" />
+        </a>
+    </section>
+</main>
+</body>
+</html>

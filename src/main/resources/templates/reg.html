@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>注册</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+    <link rel="stylesheet" href="../styles/common.css">
+    <link rel="stylesheet" href="../styles/milligram.min.css">
+</head>
+<body>
+<main class="wrapper">
+    <#include "header.html"/>
+    <section class="container" style="max-width:30rem;">
+        <h5 class="title">注册</h5>
+        <form action="/reg" method="post" id="reg">
+            <fieldset>
+                <label for="username">用户名</label>
+                <input type="text" placeholder="用户名"  name="username" id="username"  required="required">
+                <label for="password" >密码</label>
+                <input type="password" placeholder="密码" name="password" id="password"  required="required">
+                <label for="confirm_password" >确认密码</label>
+                <input type="password" placeholder="确认密码" name="confirm_password" id="confirm_password"  required="required">
+                <label for="email" >邮箱</label>
+                <input type="email" placeholder="邮箱" name="email" id="email" required="required">
+                <label for="sex" >性别</label>
+                <select id="sex" name="sex">
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                </select>
+                <div class="float-right">
+                    <a href="/login">已有账号，登陆</a>
+                </div>
+                <input class="button-primary" type="submit" value="注册">
+            </fieldset>
+        </form>
+    </section>
+</main>
+</body>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+<script src="../scripts/validate.js"></script>
+</html>
