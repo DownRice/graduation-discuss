@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class LoginTicket {
     private int id;
-    private int userId;
-    private Date expired;
+    private int userId;//用户id
+    private Date expired;//超时时间
     private int status;// 0有效，1无效
-    private String ticket;
+    private String ticket;//唯一ticket
 
     public int getId() {
         return id;

@@ -9,9 +9,13 @@ public class MyUtil {
     private static  final Logger logger = LoggerFactory.getLogger(MyUtil.class);
 
     private MyUtil(){
-
     }
 
+    /**
+     * MD5加密
+     * @param key
+     * @return
+     */
     public static String MD5(String key) {
         char hexDigits[] = {
                 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'

@@ -6,8 +6,8 @@ public class User {
     private String password;
     private String email;
     private String sex;
-    private String headUrl;
-    private String salt;
+    private String headUrl;//头像链接
+    private String salt;//加密盐
 
     public int getId() {
         return id;

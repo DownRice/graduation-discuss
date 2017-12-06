@@ -15,6 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
+/**
+ * 负责对所有情况的页面访问的拦截，
+ * 检测用户登陆状态并写入容器，以及将用户信息写入ModelAndView
+ */
 @Component
 public class PassportInterceptor implements HandlerInterceptor {
     @Autowired
@@ -53,7 +57,7 @@ public class PassportInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
-        if(modelAndView != null){//渲染之前加入User
+        if(modelAndView != null){// 页面渲染之前加入User
             modelAndView.addObject("user", hostHolder.getUser());
         }
     }

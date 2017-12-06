@@ -9,6 +9,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 负责对非登录状态的页面访问进行拦截，进行login页面的跳转
+ */
 @Component
 public class LoginRequiredInterceptor implements HandlerInterceptor {
 
