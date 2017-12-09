@@ -13,11 +13,15 @@ public class CommentService {
     @Autowired
     private CommentDAO commentDAO;
 
+    @Autowired
+    private SensitiveService sensitiveService;
+
     public List<Comment> getCommentsByEntity(int entityId, int entityType) {
         return commentDAO.selectByEntity(entityId, entityType);
     }
 
     public int addComment(Comment comment){
+        comment.setContent(sensitiveService.filter(comment.getContent()));
         return commentDAO.insertComment(comment);
     }
 
@@ -29,5 +33,8 @@ public class CommentService {
         commentDAO.updateAllStatus(entityId, entityType, -1);
     }
 
+    public Comment getCommentById(int id) {
+        return commentDAO.getCommentById(id);
+    }
 
 }

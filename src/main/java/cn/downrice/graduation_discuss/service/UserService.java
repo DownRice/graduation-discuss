@@ -117,6 +117,8 @@ public class UserService {
         //验证成功
         String ticket = addLoginTicket(user.getId());
         map.put("ticket", ticket);//ticket
+        map.put("userId", user.getId());
+        map.put("email", user.getEmail());
         return map;
     }
 
@@ -135,6 +137,10 @@ public class UserService {
     //登出服务
     public void logout(String ticket) {
         loginTicketDAO.updateStatus(ticket, 1);
+    }
+
+    public User getUserById(int id){
+        return userDAO.selectUserById(id);
     }
 
 }

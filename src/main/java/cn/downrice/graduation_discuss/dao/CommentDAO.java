@@ -17,6 +17,9 @@ public interface CommentDAO {
     @Select({"SELECT ", SELECT_FIELDS, " FROM ", TABLE_NAME, " WHERE entity_id=#{entityId} AND entity_type=#{entityType}"})
     List<Comment> selectByEntity(@Param("entityId") int entityId, @Param("entityType") int entityType);
 
+    @Select({"SELECT ", SELECT_FIELDS, " FROM ", TABLE_NAME, " WHERE id=#{id}"})
+    Comment getCommentById(int id);
+
     @Update({"UPDATE ", TABLE_NAME, " SET status=#{status} WHERE entity_id=#{entityId} AND entity_type=#{entityType} AND user_id=#{userId}"})
     void updateStatus(@Param("entityId") int entityId, @Param("entityType") int entityType, @Param("userId") int userId, @Param("status") int status);
 
@@ -31,5 +34,7 @@ public interface CommentDAO {
      */
     @Select({"select count(id) from ", TABLE_NAME, " where entity_id=#{entityId} and entity_type=#{entityType} "})
     int getCommentCount(@Param("entityId") int entityId, @Param("entityType") int entityType);
+
+
 
 }

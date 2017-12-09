@@ -1,6 +1,11 @@
 package cn.downrice.graduation_discuss.controller;
 
+import cn.downrice.graduation_discuss.async.EventModel;
+import cn.downrice.graduation_discuss.async.EventProducer;
+import cn.downrice.graduation_discuss.async.EventType;
 import cn.downrice.graduation_discuss.service.UserService;
+import cn.downrice.graduation_discuss.util.MyUtil;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +28,9 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EventProducer eventProducer;
 
     @RequestMapping(path = {"/reg"}, method = RequestMethod.GET)
     public String reg(Model model, @RequestParam(value="next", required = false) String next){
@@ -86,7 +94,7 @@ public class LoginController {
                         @RequestParam("password")String password,
                         @RequestParam(value="next", required = false) String next,
                         @RequestParam(value="rememberme", defaultValue = "false") boolean rememberme,
-                        HttpServletResponse response){
+                        HttpServletResponse response, HttpServletRequest request){
         try {
             Map<String, Object> map = userService.login(username, password);
             if (map.containsKey("ticket")) {
@@ -96,6 +104,13 @@ public class LoginController {
                     cookie.setMaxAge(3600*24*5);
                 }
                 response.addCookie(cookie);
+
+
+                eventProducer.fireEvent(new EventModel(EventType.LOGIN)
+                        .setExt("username", username).setExt("email", (String)map.get("email"))
+                        .setExt("ip", MyUtil.getIpAddr(request))
+                        .setActorId((int)map.get("userId")));
+
                 if (StringUtils.isNotBlank(next)) {
                     return "redirect:" + next;
                 }
@@ -106,7 +121,7 @@ public class LoginController {
             }
 
         } catch (Exception e) {
-            logger.error("登陆异常" + e.getMessage());
+            logger.error("登陆异常" + e.getMessage() + e);
             return "login";
         }
     }

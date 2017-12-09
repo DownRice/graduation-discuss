@@ -17,7 +17,6 @@ public class LogAspect {
 
     @Before("execution(* cn.downrice.graduation_discuss.controller.*.*(..))")
     public void beforeMethod(JoinPoint joinPoint){
-
         logger.info("beforeMethod:");
     }
 }

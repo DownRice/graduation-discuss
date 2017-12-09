@@ -8,7 +8,7 @@ public class Message {
     private int toId;
     private String content;
     private Date createdDate;
-    private int hasRead;
+    private int hasRead;//0未读1已读
     private String conversationId;
 
     public int getId() {
@@ -60,7 +60,10 @@ public class Message {
     }
 
     public String getConversationId() {
-        return conversationId;
+        if (fromId < toId) {
+            return String.format("%d_%d", fromId, toId);
+        }
+        return String.format("%d_%d", toId, fromId);
     }
 
     public void setConversationId(String conversationId) {
