@@ -7,6 +7,8 @@ import cn.downrice.graduation_discuss.model.EntityType;
 import cn.downrice.graduation_discuss.model.User;
 import cn.downrice.graduation_discuss.service.SensitiveService;
 import cn.downrice.graduation_discuss.service.UserService;
+import cn.downrice.graduation_discuss.util.MyUtil;
+import com.alibaba.fastjson.JSONObject;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -53,6 +55,11 @@ public class MyTest {
     @Test
     public void myTest(){
         Map<String, String> information = new HashMap<>();
+
+        //JSONObject object = MyUtil.getAreaByIp("xxx");
+            //logger.info(object.get("data").getClass().getName());
+
+
 //        /*
 //        try {
 //            Thread.sleep(10000);
@@ -90,15 +97,15 @@ public class MyTest {
         commentDAO.updateStatus(0, 0, 0, -1);
 
 
-        try {
-            Configuration configuration = freeMarkerConfigurer.getConfiguration();
-            Template template = configuration.getTemplate("mail/login_feedback.html");
-            Map<String, String> map = new HashMap<>();
-            map.put("user", "草泥马");
-            logger.info("看看吧：" + FreeMarkerTemplateUtils.processTemplateIntoString(template,map));
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+//        try {
+//            Configuration configuration = freeMarkerConfigurer.getConfiguration();
+//            Template template = configuration.getTemplate("mail/login_feedback.html");
+//            Map<String, String> map = new HashMap<>();
+//            map.put("user", "草泥马");
+//            logger.info("看看吧：" + FreeMarkerTemplateUtils.processTemplateIntoString(template,map));
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
 
     }
 }

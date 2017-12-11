@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>登陆</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
-    <link rel="stylesheet" href="../styles/milligram.min.css">
+    <link rel="stylesheet" href="./styles/milligram.min.css">
 
-    <link rel="stylesheet" href="../styles/common.css">
+    <link rel="stylesheet" href="./styles/common.css">
 </head>
 <body>
 <main class="wrapper">
     <#include "header.html"/>
     <section class="container" style="max-width:30rem;">
         <h5 class="title">登陆</h5>
-        <form action="/login" method="post">
+        <form action="login" method="post">
             <fieldset>
                 <label for="username">用户名</label>
                 <input type="text" placeholder="用户名"  name="username" id="username"/>
@@ -23,7 +23,7 @@
                 <div class="float-right">
                     <input type="checkbox"  name="rememberme" id="rememberme"/>
                     <label class="label-inline" for="rememberme">记住我</label>
-                    <label style="margin:0px;padding:0px;"><a href="/reg?next=${next!}">没有账号，注册</a></label>
+                    <label style="margin:0px;padding:0px;"><a href="reg?next=${next!}">没有账号，注册</a></label>
                 </div>
                 <input type="hidden" name="next" id="next"/>
                 <input class="button-primary" type="submit" value="登陆">

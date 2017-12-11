@@ -4,6 +4,8 @@ import cn.downrice.graduation_discuss.async.EventHandler;
 import cn.downrice.graduation_discuss.async.EventModel;
 import cn.downrice.graduation_discuss.async.EventType;
 import cn.downrice.graduation_discuss.util.MailSender;
+import cn.downrice.graduation_discuss.util.MyUtil;
+import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,11 @@ public class LoginHandler implements EventHandler {
         logger.info("进入了LoginHandler的doHandle");
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("username", model.getExt("username"));
-        map.put("ip", model.getExt("ip"));
+        //model.getExt("ip")
+        JSONObject areaData = MyUtil.getAreaByIp(model.getExt("ip"));
+        if(areaData != null) {
+            map.put("areaData", areaData);
+        }
         Date date = new Date();
         mailSender.sendWithHTMLTemplate(model.getExt("email"), "您的账号"+model.getExt("username")+"登陆了", "mail/login_feedback.html", map);
     }

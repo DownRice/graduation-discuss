@@ -1,9 +1,17 @@
 package cn.downrice.graduation_discuss.util;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 
 public class MyUtil {
@@ -47,6 +55,11 @@ public class MyUtil {
         }
     }
 
+    /**
+     * 获取客户端IP地址
+     * @param request
+     * @return
+     */
     public static String getIpAddr(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
         if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
@@ -62,5 +75,36 @@ public class MyUtil {
             ip = "本地";
         }
         return ip;
+    }
+
+    /**
+     * 根据IP获取地址（调用淘宝IP库）
+     * @param ip
+     * @return
+     */
+    public static JSONObject getAreaByIp(String ip){
+        String path = "http://ip.taobao.com/service/getIpInfo.php?ip="+ip;
+        String inputline="";
+        String info="";
+        try {
+            URL url = new URL(path);
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            conn.setReadTimeout(10*1000);
+            conn.setRequestMethod("GET");
+            InputStreamReader inStream = new InputStreamReader(conn.getInputStream(),"UTF-8");
+            BufferedReader buffer=new BufferedReader(inStream);
+            while((inputline=buffer.readLine())!=null){
+                info+=inputline;
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        JSONObject result = JSONObject.parseObject(info);
+        if((int)result.get("code") == 1){
+            return null;
+        }
+        return (JSONObject)result.get("data");
     }
 }
