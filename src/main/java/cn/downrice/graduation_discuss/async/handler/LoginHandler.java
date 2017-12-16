@@ -23,7 +23,7 @@ public class LoginHandler implements EventHandler {
 
     @Override
     public void doHandle(EventModel model) {
-        logger.info("进入了LoginHandler的doHandle");
+        //logger.info("进入了LoginHandler的doHandle");
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("username", model.getExt("username"));
         //model.getExt("ip")

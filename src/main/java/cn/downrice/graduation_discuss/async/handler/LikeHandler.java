@@ -29,7 +29,7 @@ public class LikeHandler implements EventHandler {
 
     @Override
     public void doHandle(EventModel model) {
-        logger.info("进入了LikeHandler 的 doHandle");
+        //logger.info("进入了LikeHandler 的 doHandle");
         Message message = new Message();
         message.setFromId(MyUtil.SYSYTEM_USER);
         message.setToId(model.getEntityOwnerId());
