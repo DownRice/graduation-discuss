@@ -5,6 +5,7 @@ import cn.downrice.graduation_discuss.dao.UserDAO;
 import cn.downrice.graduation_discuss.model.HostHolder;
 import cn.downrice.graduation_discuss.model.LoginTicket;
 import cn.downrice.graduation_discuss.model.User;
+import cn.downrice.graduation_discuss.util.MyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -44,8 +45,9 @@ public class PassportInterceptor implements HandlerInterceptor {
 
         if(ticket != null){
             LoginTicket loginTicket = loginTicketDAO.selectByTicket(ticket);
-            if(loginTicket == null || loginTicket.getExpired().before(new Date()) || loginTicket.getStatus() != 0){
-                return true;//false的话整个请求会结束
+            if(loginTicket == null || loginTicket.getExpired().before(new Date()) || loginTicket.getStatus() != MyUtil.STATE_VALID){
+                //false的话整个请求会结束
+                return true;
             }
 
             User user = userDAO.selectUserById(loginTicket.getUserId());
@@ -57,7 +59,8 @@ public class PassportInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
-        if(modelAndView != null){// 页面渲染之前加入User
+        if(modelAndView != null){
+            // 页面渲染之前加入User
             modelAndView.addObject("user", hostHolder.getUser());
         }
     }

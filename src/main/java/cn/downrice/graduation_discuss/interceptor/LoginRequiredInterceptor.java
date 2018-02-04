@@ -1,6 +1,7 @@
 package cn.downrice.graduation_discuss.interceptor;
 
 import cn.downrice.graduation_discuss.model.HostHolder;
+import cn.downrice.graduation_discuss.util.MyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -22,6 +23,9 @@ public class LoginRequiredInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         if (hostHolder.getUser() == null) {
             httpServletResponse.sendRedirect("login?next=" + httpServletRequest.getRequestURI());
+        }else if(hostHolder.getUser().getState() != MyUtil.STATE_VALID){
+            //邮箱未激活
+            httpServletResponse.sendRedirect("activateMail?email="+hostHolder.getUser().getEmail());
         }
         return true;
     }

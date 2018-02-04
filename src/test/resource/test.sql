@@ -7,6 +7,7 @@ CREATE TABLE `user` (
 	  `sex` char(2) NOT NULL DEFAULT '',
     `salt` varchar(32) NOT NULL DEFAULT '',
     `head_url` varchar(256) NOT NULL DEFAULT '',
+    `state` int(11) unsigned  NOT NULL DEFAULT '1',
     PRIMARY KEY (`id`),
     UNIQUE KEY `name` (`name`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

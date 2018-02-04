@@ -4,6 +4,7 @@ import cn.downrice.graduation_discuss.util.JedisAdapter;
 import cn.downrice.graduation_discuss.util.RedisKeyUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.*;
 
 @Service
 public class EventConsumer implements InitializingBean, ApplicationContextAware {
@@ -27,6 +29,11 @@ public class EventConsumer implements InitializingBean, ApplicationContextAware 
 
     private Map<EventType, List<EventHandler>> config = new HashMap<EventType, List<EventHandler>>();
     private ApplicationContext applicationContext;
+    ThreadFactory eventConsumerFactory = new ThreadFactoryBuilder()
+            .setNameFormat("pool-%d").build();
+    private ExecutorService cachedThreadPool = new ThreadPoolExecutor(5, 200,
+            0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(1024), eventConsumerFactory,
+            new ThreadPoolExecutor.AbortPolicy());
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -49,6 +56,32 @@ public class EventConsumer implements InitializingBean, ApplicationContextAware 
             }
         }
 
+        cachedThreadPool.execute(new Runnable() {
+                                     @Override
+                                     public void run() {
+                                         while(true){
+                                             String key = RedisKeyUtil.getEventQueueKey();
+                                             List<String> events = jedisAdapter.brpop(0, key);
+                                             for(String message : events){
+                                                 if(message.equals(key)){
+                                                     continue;
+                                                 }
+
+                                                 EventModel eventModel = JSON.parseObject(message, EventModel.class);
+                                                 if(!config.containsKey(eventModel.getType())){
+
+                                                     logger.error("无法识别事件类型"+eventModel.getType());
+                                                     continue;
+                                                 }
+                                                 for(EventHandler eventHandler : config.get(eventModel.getType())){
+                                                     eventHandler.doHandle(eventModel);
+                                                 }
+                                             }
+                                         }
+                                     }
+                                 }
+        );
+        /*
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -74,6 +107,7 @@ public class EventConsumer implements InitializingBean, ApplicationContextAware 
         });
 
         thread.start();
+        */
     }
 
     @Override

@@ -45,7 +45,8 @@ public class MessageController {
             for (Message msg : conversationList) {
                 ViewObject vo = new ViewObject();
                 vo.set("conversation", msg);
-                int targetId = msg.getFromId() == localUserId ? msg.getToId() : msg.getFromId();//取到对方的id
+                //取到对方的id
+                int targetId = msg.getFromId() == localUserId ? msg.getToId() : msg.getFromId();
                 User user = userService.getUserById(targetId);
                 vo.set("user", user);
                 vo.set("unread", messageService.getConvesationUnreadCount(localUserId, msg.getConversationId()));

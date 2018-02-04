@@ -8,6 +8,7 @@ public class User {
     private String sex;
     private String headUrl;//头像链接
     private String salt;//加密盐
+    private int state;//状态：0有效 1无效
 
     public int getId() {
         return id;
@@ -63,6 +64,14 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     public User(){

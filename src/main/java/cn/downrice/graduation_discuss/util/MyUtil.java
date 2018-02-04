@@ -19,6 +19,10 @@ public class MyUtil {
 
     public static int SYSYTEM_USER = 0;
 
+
+    public static int STATE_VALID = 0;//状态有效
+    public static int STATE_INVALID = 1;//状态无效
+
     private MyUtil(){
     }
 

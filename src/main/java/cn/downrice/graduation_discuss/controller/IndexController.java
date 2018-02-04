@@ -19,7 +19,11 @@ public class IndexController {
         return "index";
     }
 
-    //统一异常处理（SpringMVC以外的/没处理的异常）
+    /**
+     * 统一异常处理（SpringMVC以外的/没处理的异常）
+     * @param e
+     * @return
+     */
     @ExceptionHandler()
     public String error(Exception e){
         logger.error("发生异常：" + e.getMessage());

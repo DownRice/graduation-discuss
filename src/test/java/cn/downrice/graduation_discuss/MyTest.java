@@ -25,10 +25,7 @@ import org.springframework.ui.velocity.VelocityEngineUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = GraduationDiscussApplication.class)
@@ -56,6 +53,8 @@ public class MyTest {
     public void myTest(){
         Map<String, String> information = new HashMap<>();
 
+        //System.out.println(UUID.randomUUID().toString());
+        //System.out.println(UUID.randomUUID().toString());
         //JSONObject object = MyUtil.getAreaByIp("xxx");
             //logger.info(object.get("data").getClass().getName());
 
@@ -67,34 +66,34 @@ public class MyTest {
 //            e.printStackTrace();
 //        }
 //        */
-        information.put("username", "TestName");
-        information.put("password", "TestPass");
-        information.put("email", "844439133@qq.com");
-        information.put("sex", "男");
-        information.put("headUrl", "TestUrl");
-        userService.register(information);
+//        information.put("username", "TestName");
+//        information.put("password", "TestPass");
+//        information.put("email", "844439133@qq.com");
+//        information.put("sex", "男");
+//        information.put("headUrl", "TestUrl");
+//        userService.register(information);
 //        sensitiveService.addWord("草泥马");
 //       sensitiveService.addWord("欧洲人");
 //      System.out.println(sensitiveService.filter("<script>我草♥泥♥马的欧洲人吃屎吧"));
 
-        Comment comment = new Comment();
-        comment.setStatus(0);
-        comment.setContent("testContent");
-        comment.setCreatedDate(new Date());
-        comment.setEntityId(0);
-        comment.setEntityType(EntityType.ENTITY_QUESTION);
-        comment.setUserId(0);
-
-        commentDAO.insertComment(comment);
-        comment.setUserId(1);
-        commentDAO.insertComment(comment);
-        comment.setUserId(2);
-        commentDAO.insertComment(comment);
-
-        List<Comment> list  = commentDAO.selectByEntity(0, 0);
-        logger.info("查询出来的list长度为：" + list.size());
-
-        commentDAO.updateStatus(0, 0, 0, -1);
+//        Comment comment = new Comment();
+//        comment.setStatus(0);
+//        comment.setContent("testContent");
+//        comment.setCreatedDate(new Date());
+//        comment.setEntityId(0);
+//        comment.setEntityType(EntityType.ENTITY_QUESTION);
+//        comment.setUserId(0);
+//
+//        commentDAO.insertComment(comment);
+//        comment.setUserId(1);
+//        commentDAO.insertComment(comment);
+//        comment.setUserId(2);
+//        commentDAO.insertComment(comment);
+//
+//        List<Comment> list  = commentDAO.selectByEntity(0, 0);
+//        logger.info("查询出来的list长度为：" + list.size());
+//
+//        commentDAO.updateStatus(0, 0, 0, -1);
 
 
 //        try {

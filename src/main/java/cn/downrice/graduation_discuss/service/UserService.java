@@ -4,7 +4,9 @@ import cn.downrice.graduation_discuss.dao.LoginTicketDAO;
 import cn.downrice.graduation_discuss.dao.UserDAO;
 import cn.downrice.graduation_discuss.model.LoginTicket;
 import cn.downrice.graduation_discuss.model.User;
+import cn.downrice.graduation_discuss.util.JedisAdapter;
 import cn.downrice.graduation_discuss.util.MyUtil;
+import cn.downrice.graduation_discuss.util.RedisKeyUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,9 @@ public class UserService {
 
     @Autowired
     private LoginTicketDAO loginTicketDAO;
+
+    @Autowired
+    private JedisAdapter jedisAdapter;
 
     /**
      * 注册验证服务
@@ -66,12 +71,19 @@ public class UserService {
         user.setSex((String)information.get("sex"));
         user.setSalt(UUID.randomUUID().toString().substring(0, 5));
         user.setPassword(MyUtil.MD5(password + user.getSalt()));
+        //未邮件激活之前都是无效状态(0)
+        user.setState((Integer.parseInt(information.get("state"))));
 
         userDAO.insertUser(user);
 
+
+
+
         //注册成功，登陆
         String ticket = addLoginTicket(user.getId());
-        map.put("ticket", ticket);//ticket
+        map.put("ticket", ticket);
+        map.put("email", user.getEmail());
+        map.put("userId", user.getId());
         return map;
 
     }
@@ -116,7 +128,7 @@ public class UserService {
 
         //验证成功
         String ticket = addLoginTicket(user.getId());
-        map.put("ticket", ticket);//ticket
+        map.put("ticket", ticket);
         map.put("userId", user.getId());
         map.put("email", user.getEmail());
         return map;
@@ -128,7 +140,7 @@ public class UserService {
         Date date = new Date();
         date.setTime(date.getTime() + 1000*3600*24);
         ticket.setExpired(date);
-        ticket.setStatus(0);
+        ticket.setStatus(MyUtil.STATE_VALID);
         ticket.setTicket(UUID.randomUUID().toString().replaceAll("-", ""));
         loginTicketDAO.insertTicket(ticket);
         return ticket.getTicket();
@@ -141,6 +153,24 @@ public class UserService {
 
     public User getUserById(int id){
         return userDAO.selectUserById(id);
+    }
+
+    public User getUserByEmail(String email){
+        return userDAO.selectUserByEmail(email);
+    }
+
+    public Boolean updateState(int state, String email){
+        if(userDAO.updateUserStateByEmail(state, email) > 0){
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean updateUser(User user){
+        if(userDAO.updateUser(user) > 0){
+            return true;
+        }
+        return false;
     }
 
 }
