@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>登陆</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+    <link rel="stylesheet" href="./styles/milligram.min.css">
+
+    <link rel="stylesheet" href="./styles/common.css">
+</head>
+<body>
+<main class="wrapper">
+    <#include "header.html"/>
+    <section class="container" style="max-width:30rem;">
+        <h5 class="title">登陆</h5>
+        <form action="varify" method="post">
+            <fieldset>
+                <label for="email">邮箱地址：</label>
+                <input type="text" placeholder="邮箱"  name="email" id="email" value="${email!}"/>
+                <input class="button-primary" type="submit" value="发送">
+            </fieldset>
+        </form>
+    </section>
+</main>
+</body>
+</html>
